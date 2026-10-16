@@ -77,7 +77,7 @@ describe("README product documentation", () => {
       "- `index [--dir DIR]` creates or refreshes the index and reports the new, changed, removed and unchanged note counts.",
     );
     expect(readme).toContain(
-      "- `search [--dir DIR] [--limit N] QUERY...` ranks notes matching every query word and filter. The default limit is 10; `N` must be from 1 to 999. Use `tag:T` to include notes tagged `T` or a descendant tag, `title:TEXT` to require title words, and `not:TEXT` to exclude notes containing those words.",
+      "- `search [--dir DIR] [--limit N] QUERY...` ranks notes matching every query word and filter. The default limit is 10; `N` must be from 1 to 999. Use `tag:T` to include notes tagged `T` or a descendant tag, `title:TEXT` to require title words, `in:FOLDER` to keep only notes whose ID starts with `FOLDER/` (repeat it to allow several folders), and `not:TEXT` to exclude notes containing those words.",
     );
     expect(readme).toContain(
       "- `links [--dir DIR] NOTE` lists outgoing links from a resolved note.",

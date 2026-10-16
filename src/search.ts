@@ -9,6 +9,7 @@ interface SearchFilters {
   titleWords: string[];
   excludedWords: string[];
   tags: string[];
+  folders: string[];
 }
 
 interface ScoredNote {
@@ -24,6 +25,7 @@ function parseQuery(operands: string[]): SearchFilters {
   const excludedWords: string[] = [];
   const excludedSeen = new Set<string>();
   const tags: string[] = [];
+  const folders: string[] = [];
 
   for (const item of operands
     .join(" ")
@@ -33,6 +35,13 @@ function parseQuery(operands: string[]): SearchFilters {
       const tag = normalizeTag(item.slice(4));
       if (tag === null) throw new CliError(`invalid query item "${item}"`);
       tags.push(tag);
+      continue;
+    }
+
+    if (item.startsWith("in:")) {
+      const folder = item.slice(3).replace(/\/$/, "");
+      if (folder.length === 0) throw new CliError(`invalid query item "${item}"`);
+      folders.push(folder);
       continue;
     }
 
@@ -65,11 +74,16 @@ function parseQuery(operands: string[]): SearchFilters {
     }
   }
 
-  if (ordinaryWords.length === 0 && titleWords.length === 0 && tags.length === 0) {
+  if (
+    ordinaryWords.length === 0 &&
+    titleWords.length === 0 &&
+    tags.length === 0 &&
+    folders.length === 0
+  ) {
     throw new CliError("empty query");
   }
 
-  return { ordinaryWords, titleWords, excludedWords, tags };
+  return { ordinaryWords, titleWords, excludedWords, tags, folders };
 }
 
 function hasTerms(note: Note, required: string[]): boolean {
@@ -136,6 +150,12 @@ export function renderSearch(notes: Note[], operands: string[], limit: number): 
     if (!hasTerms(note, filters.ordinaryWords)) continue;
     if (!hasTitleWords(note, filters.titleWords)) continue;
     if (!hasTags(note, filters.tags)) continue;
+    if (
+      filters.folders.length > 0 &&
+      !filters.folders.some((folder) => note.id.startsWith(`${folder}/`))
+    ) {
+      continue;
+    }
     if (filters.excludedWords.some((word) => counts.has(word))) continue;
 
     const score =
