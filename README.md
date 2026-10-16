@@ -121,7 +121,7 @@ The index is stored at `DIR/.notesift/index.txt` (with `DIR` defaulting to `.`, 
 Every command accepts `--dir DIR`; it defaults to the current directory. Option values may follow the option or be supplied with `=`. The last value wins for scalar options.
 
 - `index [--dir DIR]` creates or refreshes the index and reports the new, changed, removed and unchanged note counts.
-- `search [--dir DIR] [--limit N] QUERY...` ranks notes matching every query word and filter. The default limit is 10; `N` must be from 1 to 999. Use `tag:T` to include notes tagged `T` or a descendant tag, `title:TEXT` to require title words, and `not:TEXT` to exclude notes containing those words.
+- `search [--dir DIR] [--limit N] QUERY...` ranks notes matching every query word and filter. The default limit is 10; `N` must be from 1 to 999. Use `tag:T` to include notes tagged `T` or a descendant tag, `title:TEXT` to require title words, `in:FOLDER` to keep only notes whose ID starts with `FOLDER/` (repeat it to allow several folders), and `not:TEXT` to exclude notes containing those words.
 - `links [--dir DIR] NOTE` lists outgoing links from a resolved note.
 - `backlinks [--dir DIR] NOTE` lists notes linking to a resolved note.
 - `check [--dir DIR]` reports broken and ambiguous links, duplicate aliases and notes with no incoming or outgoing links.
