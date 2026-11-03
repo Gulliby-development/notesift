@@ -3,7 +3,7 @@ import { normalizeTag } from "./note";
 import { plural } from "./text";
 import { CliError, type Note } from "./types";
 
-export function renderTags(notes: Note[], tag: string | null): string {
+export function renderTags(notes: Note[], tag: string | null, min = 1): string {
   if (tag === null) {
     const counts = new Map<string, number>();
 
@@ -13,10 +13,12 @@ export function renderTags(notes: Note[], tag: string | null): string {
       }
     }
 
-    const inventory = [...counts.entries()].sort(
-      ([leftTag, leftCount], [rightTag, rightCount]) =>
-        rightCount - leftCount || compareCodePoints(leftTag, rightTag),
-    );
+    const inventory = [...counts.entries()]
+      .filter(([, count]) => count >= min)
+      .sort(
+        ([leftTag, leftCount], [rightTag, rightCount]) =>
+          rightCount - leftCount || compareCodePoints(leftTag, rightTag),
+      );
     const lines = inventory.map(([exactTag, count]) => `${exactTag}  ${count}`);
     lines.push(plural(inventory.length, "tag", "tags"));
     return `${lines.join("\n")}\n`;

@@ -20,7 +20,7 @@ const HELP = `usage: notesift index [--dir DIR]
        notesift check [--dir DIR]
        notesift path [--dir DIR] FROM TO
        notesift related [--dir DIR] [--limit N] NOTE
-       notesift tags [--dir DIR] [TAG]
+       notesift tags [--dir DIR] [--min N] [TAG]
        notesift stats [--dir DIR]
        notesift export [--dir DIR] --format json|dot|csv|md
        notesift capture [--dir DIR] [--title TEXT] [--tag TAG]... NAME
@@ -97,7 +97,7 @@ function runCommand(parsed: Parsed, io: Io): Result {
     }
     case "tags":
       return {
-        text: renderTags(notes, parsed.operands[0] ?? null),
+        text: renderTags(notes, parsed.operands[0] ?? null, parsed.min ?? 1),
         code: 0,
       };
     case "stats":

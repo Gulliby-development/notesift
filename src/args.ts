@@ -21,6 +21,7 @@ export interface Parsed {
   dir: string;
   operands: string[];
   limit: number | null;
+  min: number | null;
   format: ExportFormat | null;
   title: string | null;
   tags: string[];
@@ -53,6 +54,8 @@ function allowsOption(command: Command, option: string): boolean {
       return true;
     case "--limit":
       return command === "search" || command === "related";
+    case "--min":
+      return command === "tags";
     case "--format":
       return command === "export";
     case "--title":
@@ -105,6 +108,7 @@ export function parseArgs(args: string[]): Parsed {
       dir: ".",
       operands: [],
       limit: null,
+      min: null,
       format: null,
       title: null,
       tags: [],
@@ -121,6 +125,7 @@ export function parseArgs(args: string[]): Parsed {
   const command = commandName;
   let dir = ".";
   let limitValue: string | null = null;
+  let minValue: string | null = null;
   let formatValue: string | null = null;
   let title: string | null = null;
   const tags: string[] = [];
@@ -157,6 +162,9 @@ export function parseArgs(args: string[]): Parsed {
       case "--limit":
         limitValue = value;
         break;
+      case "--min":
+        minValue = value;
+        break;
       case "--format":
         formatValue = value;
         break;
@@ -177,6 +185,14 @@ export function parseArgs(args: string[]): Parsed {
     limit = Number(limitValue);
   }
 
+  let min: number | null = null;
+  if (minValue !== null) {
+    if (!/^[0-9]{1,3}$/.test(minValue) || Number(minValue) < 1) {
+      throw new CliError(`invalid --min "${minValue}"`);
+    }
+    min = Number(minValue);
+  }
+
   let format: ExportFormat | null = null;
   if (formatValue !== null) {
     if (!isExportFormat(formatValue)) {
@@ -189,12 +205,16 @@ export function parseArgs(args: string[]): Parsed {
   }
 
   validateArity(command, operands);
+  if (min !== null && operands.length > 0) {
+    throw new CliError("--min works only without TAG");
+  }
 
   return {
     command,
     dir: cleanDir(dir),
     operands,
     limit,
+    min,
     format,
     title,
     tags,

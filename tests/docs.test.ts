@@ -95,7 +95,7 @@ describe("README product documentation", () => {
       "- `related [--dir DIR] [--limit N] NOTE` ranks other notes by term-vector cosine similarity. The default limit is 5; `N` must be from 1 to 999.",
     );
     expect(readme).toContain(
-      "- `tags [--dir DIR] [TAG]` lists tags and their note counts, or lists notes with the given tag and its descendants.",
+      "- `tags [--dir DIR] [--min N] [TAG]` lists tags and their note counts, or lists notes with the given tag and its descendants. With `--min N` the tag list keeps only the tags used by at least `N` notes, and its last line counts only those tags; `N` must be from 1 to 999. `--min` cannot be combined with `TAG`.",
     );
     expect(readme).toContain(
       "- `stats [--dir DIR]` summarizes note, word, tag, link, diagnostic, orphan and connected-component counts.",
@@ -161,7 +161,7 @@ describe("README product documentation", () => {
           "       notesift check [--dir DIR]\n" +
           "       notesift path [--dir DIR] FROM TO\n" +
           "       notesift related [--dir DIR] [--limit N] NOTE\n" +
-          "       notesift tags [--dir DIR] [TAG]\n" +
+          "       notesift tags [--dir DIR] [--min N] [TAG]\n" +
           "       notesift stats [--dir DIR]\n" +
           "       notesift export [--dir DIR] --format json|dot|csv|md\n" +
           "       notesift capture [--dir DIR] [--title TEXT] [--tag TAG]... NAME",
