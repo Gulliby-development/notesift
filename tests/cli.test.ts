@@ -15,7 +15,7 @@ const HELP =
   "       notesift check [--dir DIR]\n" +
   "       notesift path [--dir DIR] FROM TO\n" +
   "       notesift related [--dir DIR] [--limit N] NOTE\n" +
-  "       notesift tags [--dir DIR] [TAG]\n" +
+  "       notesift tags [--dir DIR] [--min N] [TAG]\n" +
   "       notesift stats [--dir DIR]\n" +
   "       notesift export [--dir DIR] --format json|dot|csv|md\n" +
   "       notesift capture [--dir DIR] [--title TEXT] [--tag TAG]... NAME\n";

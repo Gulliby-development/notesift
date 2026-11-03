@@ -20,7 +20,7 @@ usage: notesift index [--dir DIR]
        notesift check [--dir DIR]
        notesift path [--dir DIR] FROM TO
        notesift related [--dir DIR] [--limit N] NOTE
-       notesift tags [--dir DIR] [TAG]
+       notesift tags [--dir DIR] [--min N] [TAG]
        notesift stats [--dir DIR]
        notesift export [--dir DIR] --format json|dot|csv|md
        notesift capture [--dir DIR] [--title TEXT] [--tag TAG]... NAME
@@ -127,7 +127,7 @@ Every command accepts `--dir DIR`; it defaults to the current directory. Option 
 - `check [--dir DIR]` reports broken and ambiguous links, duplicate aliases and notes with no incoming or outgoing links.
 - `path [--dir DIR] FROM TO` finds a shortest link path between two resolved notes.
 - `related [--dir DIR] [--limit N] NOTE` ranks other notes by term-vector cosine similarity. The default limit is 5; `N` must be from 1 to 999.
-- `tags [--dir DIR] [TAG]` lists tags and their note counts, or lists notes with the given tag and its descendants.
+- `tags [--dir DIR] [--min N] [TAG]` lists tags and their note counts, or lists notes with the given tag and its descendants. With `--min N` the tag list keeps only the tags used by at least `N` notes, and its last line counts only those tags; `N` must be from 1 to 999. `--min` cannot be combined with `TAG`.
 - `stats [--dir DIR]` summarizes note, word, tag, link, diagnostic, orphan and connected-component counts.
 - `export [--dir DIR] --format F` exports notes as `json`, `dot`, `csv` or `md`; `--format` is required.
 - `capture [--dir DIR] [--title TEXT] [--tag TAG]... NAME` creates a Markdown note from standard input. Tags may be repeated; when no title is supplied, one is derived from the final name segment. The index is left unchanged.

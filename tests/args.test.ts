@@ -23,6 +23,7 @@ const parsed = (
   dir: ".",
   operands,
   limit: null,
+  min: null,
   format: null,
   title: null,
   tags: [],
